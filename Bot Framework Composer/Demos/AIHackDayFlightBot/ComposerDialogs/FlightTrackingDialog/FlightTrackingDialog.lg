@@ -1,0 +1,244 @@
+[import](common.lg)
+
+# bfdactivity-644063()
+- This is a flight tracking dialog.
+
+# bfdprompt-488898()
+- What is the destination?
+- Please tell me the destination
+
+# bfdprompt-468866()
+- What's the source?
+
+# bfdprompt-038317()
+- Can you please provide the flight number instead? I am not able to locate your flight.
+- Please provide me the flight number for better tracking.
+
+# bfdactivity-007952()
+- ${AdaptiveCard(conversation.FlightDetails)}
+
+ # GetFlightNumber(flightDetails)
+- IF: ${(length(flightDetails.flightNumber)) == 0}
+    - AB 123
+- ELSE:
+    - ${flightDetails.flightNumber}
+
+# GetSource(flightDetails)
+- IF:${(length(flightDetails.Source)) == 0}
+    - SYDNEY
+- ELSE:
+    - ${flightDetails.Source}
+
+# GetDestination(flightDetails)
+- IF:${(length(flightDetails.Destination)) == 0}
+    - MELBOURNE
+- ELSE:
+    - ${flightDetails.Destination}
+
+# AdaptiveCard(flightDetails)
+[Activity
+    Attachments = ${json(adaptivecardjson(flightDetails))}
+]
+
+# adaptivecardjson(flightDetails)
+- ```
+{
+    "type": "AdaptiveCard",
+    "body": [
+        {
+            "type": "ColumnSet",
+            "columns": [
+                {
+                    "type": "Column",
+                    "items": [
+                        {
+                            "type": "Image",
+                            "url": "http://adaptivecards.io/content/airplane.png",
+                            "size": "Small"
+                        }
+                    ],
+                    "width": "auto"
+                },
+                {
+                    "type": "Column",
+                    "items": [
+                        {
+                            "type": "TextBlock",
+                            "horizontalAlignment": "Right",
+                            "text": "Flight Status",
+                            "isSubtle": true
+                        },
+                        {
+                            "type": "TextBlock",
+                            "id": "Status",
+                            "horizontalAlignment": "Right",
+                            "spacing": "None",
+                            "size": "Large",
+                            "color": "Good",
+                            "text": "ON TIME"
+                        }
+                    ],
+                    "width": "stretch"
+                }
+            ]
+        },
+        {
+            "type": "ColumnSet",
+            "spacing": "Medium",
+            "separator": true,
+            "columns": [
+                {
+                    "type": "Column",
+                    "items": [
+                        {
+                            "type": "TextBlock",
+                            "weight": "Bolder",
+                            "text": "Flight",
+                            "isSubtle": true
+                        },
+                        {
+                            "type": "TextBlock",
+                            "id": "FlightNumber",
+                            "spacing": "Small",
+                            "text": "${GetFlightNumber(flightDetails)}"
+                        }
+                    ],
+                    "width": 1
+                },
+                {
+                    "type": "Column",
+                    "items": [
+                        {
+                            "type": "TextBlock",
+                            "horizontalAlignment": "Center",
+                            "weight": "Bolder",
+                            "text": "Departs",
+                            "isSubtle": true
+                        },
+                        {
+                            "type": "TextBlock",
+                            "id": "DepartureTime",
+                            "horizontalAlignment": "Center",
+                            "spacing": "Small",
+                            "text": "10:10 AM"
+                        }
+                    ],
+                    "width": 1
+                },
+                {
+                    "type": "Column",
+                    "items": [
+                        {
+                            "type": "TextBlock",
+                            "horizontalAlignment": "Right",
+                            "weight": "Bolder",
+                            "text": "Arrives",
+                            "isSubtle": true
+                        },
+                        {
+                            "type": "TextBlock",
+                            "id": "ArrivalTime",
+                            "horizontalAlignment": "Right",
+                            "spacing": "Small",
+                            "text": "12:00 AM"
+                        }
+                    ],
+                    "width": 1
+                }
+            ]
+        },
+        {
+            "type": "ColumnSet",
+            "spacing": "Medium",
+            "separator": true,
+            "columns": [
+                {
+                    "type": "Column",
+                    "items": [
+                        {
+                            "type": "TextBlock",
+                            "id": "SourceName",
+                            "text": "${GetSource(flightDetails)}",
+                            "isSubtle": true
+                        },
+                        {
+                            "type": "TextBlock",
+                            "id": "SourceCode",
+                            "spacing": "None",
+                            "size": "ExtraLarge",
+                            "color": "Accent",
+                            "text": "SYD"
+                        }
+                    ],
+                    "width": 1
+                },
+                {
+                    "type": "Column",
+                    "items": [
+                        {
+                            "type": "TextBlock",
+                            "text": " "
+                        },
+                        {
+                            "type": "Image",
+                            "url": "http://adaptivecards.io/content/airplane.png",
+                            "size": "Small"
+                        }
+                    ],
+                    "width": "auto"
+                },
+                {
+                    "type": "Column",
+                    "items": [
+                        {
+                            "type": "TextBlock",
+                            "id": "DestinationName",
+                            "horizontalAlignment": "Right",
+                            "text": "${GetDestination(flightDetails)}",
+                            "isSubtle": true
+                        },
+                        {
+                            "type": "TextBlock",
+                            "id": "DestinationCode",
+                            "horizontalAlignment": "Right",
+                            "spacing": "None",
+                            "size": "ExtraLarge",
+                            "color": "Accent",
+                            "text": "MEL"
+                        }
+                    ],
+                    "width": 1
+                }
+            ]
+        }
+    ],
+    "actions": [
+      {
+        "type": "Action.ShowCard",
+        "title": "View Flight Route",
+        "card": {
+          "type": "AdaptiveCard",
+          "style": "emphasis",
+          "body": [
+            {
+              "type": "Image",
+              "url": "https://i.ibb.co/7vBnm5T/AT999.png",
+              "size": "Stretch"
+            }
+          ],
+          "$schema": "http://adaptivecards.io/schemas/adaptive-card.json"
+        }
+      }
+    ],
+    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+    "version": "1.0",
+    "speak": "<s>Flight KL0605 to San Fransisco has been delayed.</s><s>It will not leave until 10:10 AM.</s>"
+}
+```
+
+
+
+
+
+
+

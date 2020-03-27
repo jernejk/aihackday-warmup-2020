@@ -1,0 +1,27 @@
+
+# TrackFlight
+- i want to know the status of flight from {Source=Manchester}
+- let's track the flight to {Destination=Brisbane}
+- what's the update flight {FlightNumber=AT 437}
+- can you please update me about the status of {FlightNumber=AT-840}
+- flight {FlightNumber=911}
+- flight to {Destination=bahrain} {FlightNumber=AT-123}, has it taken off[?]
+- {FlightNumber=AT 219}
+- has the flight {FlightNumber=AT 372} {FlightNumber=from} {Source=bahrain} to {Destination=sydney} landed yet?
+- i want to track ek {FlightNumber=234}
+- i want to track flight {FlightNumber=AT573}
+- is flight from {Source=london} to {FlightNumber=bahrain} on time?
+- please book a flight from {Source=london} to {Destination=paris}
+- tell me about {FlightNumber=AT 124} to {Destination=karachi}
+- tell me about {FlightNumber=at 810}
+- whats the status of flight from {Source=karachi}?
+- when is the flight number {FlightNumber=288} from {Source=hyderabad} to {Destination=manama} landing[?]
+- when will the flight from {Source=dubai} to {Destination=istanbul} land?
+- where is {FlightNumber=at 999}[?]
+
+
+# Help
+- I need help
+- I want help
+- Help me please
+- I am not sure

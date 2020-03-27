@@ -1,0 +1,29 @@
+{
+  "$type": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "132830",
+    "name": "HelpDialog"
+  },
+  "autoEndDialog": "true",
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$type": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "id": "808543"
+      },
+      "actions": [
+        {
+          "$type": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "078575",
+            "name": "Send a response"
+          },
+          "activity": "${bfdactivity-078575()}"
+        }
+      ]
+    }
+  ],
+  "generator": "HelpDialog.lg"
+}

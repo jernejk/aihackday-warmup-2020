@@ -1,0 +1,180 @@
+{
+  "$type": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "418337",
+    "name": "FlightTrackingDialog"
+  },
+  "autoEndDialog": "true",
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$type": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "id": "225668"
+      },
+      "actions": [
+        {
+          "$type": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "644063",
+            "name": "Send a response"
+          },
+          "activity": "${bfdactivity-644063()}"
+        },
+        {
+          "$type": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "908781",
+            "name": "Set a property"
+          },
+          "property": "conversation.FlightDetails.FlightNumber",
+          "value": "=toUpper(@FlightNumber)"
+        },
+        {
+          "$type": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "985570",
+            "name": "Set a property"
+          },
+          "property": "conversation.FlightDetails.Source",
+          "value": "=toUpper(@source)"
+        },
+        {
+          "$type": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "853890",
+            "name": "Set a property"
+          },
+          "property": "conversation.FlightDetails.Destination",
+          "value": "=toUpper(@destination)"
+        },
+        {
+          "$type": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "218851",
+            "name": "Branch: if/else"
+          },
+          "condition": "=length(conversation.FlightDetails.FlightNumber) > 0",
+          "elseActions": [
+            {
+              "$type": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "578947",
+                "name": "Branch: if/else"
+              },
+              "condition": "=and(length(conversation.FlightDetails.Source) > 0,length(conversation.FlightDetails.Destination) > 0)",
+              "elseActions": [
+                {
+                  "$type": "Microsoft.IfCondition",
+                  "$designer": {
+                    "id": "662331",
+                    "name": "Branch: if/else"
+                  },
+                  "condition": "=or(length(conversation.FlightDetails.Source) > 0,length(conversation.FlightDetails.Destination) > 0)",
+                  "actions": [
+                    {
+                      "$type": "Microsoft.IfCondition",
+                      "$designer": {
+                        "id": "622826",
+                        "name": "Branch: if/else"
+                      },
+                      "condition": "=length(conversation.FlightDetails.Source) > 0",
+                      "actions": [
+                        {
+                          "$type": "Microsoft.TextInput",
+                          "$designer": {
+                            "id": "488898",
+                            "name": "Text input"
+                          },
+                          "prompt": "${bfdprompt-488898()}",
+                          "maxTurnCount": "3",
+                          "property": "conversation.FlightDetails.Destination",
+                          "allowInterruptions": "true"
+                        }
+                      ],
+                      "elseActions": [
+                        {
+                          "$type": "Microsoft.TextInput",
+                          "$designer": {
+                            "id": "468866",
+                            "name": "Text input"
+                          },
+                          "prompt": "${bfdprompt-468866()}",
+                          "maxTurnCount": "3",
+                          "property": "conversation.FlightDetails.Source",
+                          "allowInterruptions": "true"
+                        }
+                      ]
+                    }
+                  ],
+                  "elseActions": [
+                    {
+                      "$type": "Microsoft.TextInput",
+                      "$designer": {
+                        "id": "038317",
+                        "name": "Text input"
+                      },
+                      "prompt": "${bfdprompt-038317()}",
+                      "maxTurnCount": "3",
+                      "property": "conversation.FlightDetails.FlightNumber",
+                      "allowInterruptions": "true"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "actions": [
+            {
+              "$type": "Microsoft.HttpRequest",
+              "$designer": {
+                "id": "869386",
+                "name": "Send an HTTP request"
+              },
+              "method": "GET",
+              "url": "http://localhost:7071/api/GetFlightDetails?flightNumber=${conversation.FlightDetails.FlightNumber}",
+              "resultProperty": "dialog.response",
+              "responseType": "Json"
+            },
+            {
+              "$type": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "811286",
+                "name": "Branch: if/else"
+              },
+              "condition": "dialog.response.statusCode == 200",
+              "actions": [
+                {
+                  "$type": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "582885",
+                    "name": "Set a property"
+                  },
+                  "property": "conversation.FlightDetails",
+                  "value": "=dialog.response.content"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$type": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "007952",
+            "name": "Send a response"
+          },
+          "activity": "${bfdactivity-007952()}"
+        },
+        {
+          "$type": "Microsoft.EndDialog",
+          "$designer": {
+            "id": "342160",
+            "name": "End this dialog"
+          }
+        }
+      ]
+    }
+  ],
+  "generator": "FlightTrackingDialog.lg"
+}
